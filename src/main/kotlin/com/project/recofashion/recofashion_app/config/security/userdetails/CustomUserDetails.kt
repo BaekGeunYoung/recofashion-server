@@ -1,6 +1,6 @@
 package com.project.recofashion.recofashion_app.config.security.userdetails
 
-import org.springframework.security.config.core.GrantedAuthorityDefaults
+import com.project.recofashion.recofashion_app.entity.user.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails
 class CustomUserDetails (private val user: User): UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         val authorities = ArrayList<GrantedAuthority>()
-        user.roles.map{ authorities.add(SimpleGrantedAuthority(it)) }
+        user.roles.map{ authorities.add(SimpleGrantedAuthority(it.name)) }
 
         return authorities
     }
