@@ -9,5 +9,7 @@ data class User(
         var password: String,
         var firstName: String,
         var lastName: String,
-        var roles: MutableSet<Role>
+        var roles: MutableSet<Role>,
+        var skin: Skin,
+        var favoriteColors: MutableSet<Color>
 )
