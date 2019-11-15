@@ -13,6 +13,22 @@ class RecommendServiceImpl(
         @Autowired private val userRepository: UserRepository,
         @Autowired private val historyRepository: HistoryRepository
 ) : RecommendService {
+    private val SHORT = "short"
+    private val SHORT_SLEEVE = "short sleeve"
+    private val SLEEVELESS = "short sleeve"
+    private val COTTON_PANTS = "short sleeve"
+    private val JEANS = "short sleeve"
+    private val CARDIGAN = "short sleeve"
+    private val LONG_SLEEVE = "short sleeve"
+    private val KNIT = "short sleeve"
+    private val JACKET = "short sleeve"
+    private val JUMPER = "short sleeve"
+    private val TRENCH_COAT = "trench coat"
+    private val COAT = "coat"
+    private val LEATHER_JACKET = "leather jacket"
+    private val HITTEK = "hittek"
+
+
     override fun recommend(temperature: Int, userDetails: UserDetails): MutableMap<String, Any> {
         val user = userRepository.findByUsername(userDetails.username)
 
