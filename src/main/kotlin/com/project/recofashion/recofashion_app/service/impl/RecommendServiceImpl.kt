@@ -27,7 +27,9 @@ class RecommendServiceImpl(
     private val COAT = "coat"
     private val LEATHER_JACKET = "leather jacket"
     private val HITTEK = "hittek"
-
+    private val PADDIGN = "padding"
+    private val SCARF = "scarf"
+    private val FLEECE_LINED = "fleece-lined"
 
     override fun recommend(temperature: Int, userDetails: UserDetails): MutableMap<String, Any> {
         val user = userRepository.findByUsername(userDetails.username)
