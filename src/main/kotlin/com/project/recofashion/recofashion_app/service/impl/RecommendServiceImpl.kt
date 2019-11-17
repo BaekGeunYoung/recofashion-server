@@ -3,9 +3,9 @@ package com.project.recofashion.recofashion_app.service.impl
 import com.project.recofashion.recofashion_app.entity.history.History
 import com.project.recofashion.recofashion_app.entity.user.Color
 import com.project.recofashion.recofashion_app.entity.user.User
-import com.project.recofashion.recofashion_app.main
 import com.project.recofashion.recofashion_app.repository.HistoryRepository
 import com.project.recofashion.recofashion_app.repository.UserRepository
+import com.project.recofashion.recofashion_app.service.ColorService
 import com.project.recofashion.recofashion_app.service.RecommendService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
@@ -15,7 +15,8 @@ import org.springframework.stereotype.Service
 @Service
 class RecommendServiceImpl(
         @Autowired private val userRepository: UserRepository,
-        @Autowired private val historyRepository: HistoryRepository
+        @Autowired private val historyRepository: HistoryRepository,
+        @Autowired private val colorService: ColorService
 ) : RecommendService {
     private val SHORT = "short"
     private val SHORT_SLEEVE = "short sleeve"
@@ -40,14 +41,19 @@ class RecommendServiceImpl(
     private val mainColors = listOf("RED", "ORANGE", "BLUE", "GREEN", "PURPLE")
     private val monoColors = listOf("GRAY", "WHITE", "BLACK")
 
-    override fun recommend(temperature: Int, userDetails: UserDetails): MutableMap<String, Any> {
+    override fun recommend(temperature: Int, tone: String, userDetails: UserDetails): MutableMap<String, Any> {
         val ret: MutableMap<String, Any> = HashMap()
         val user = userRepository.findByUsername(userDetails.username)
 
         user?: throw UsernameNotFoundException("cannot find such user : ${userDetails.username}")
 
-        ret["clothes"] = recommendClothes(temperature)
-        ret["mainColor"] = recommendMainColor(temperature, user)
+        val clothes = recommendClothes(temperature)
+        val mainColor = recommendMainColor(temperature, tone, user)
+        val sideColors = recommendSideColors(mainColor)
+
+        ret["clothes"] = clothes
+        ret["mainColor"] = mainColor
+        ret["sideColors"] = sideColors
 
         return ret
     }
@@ -63,12 +69,24 @@ class RecommendServiceImpl(
         return listOf(HITTEK, COAT, PADDING, SCARF)
     }
 
-    fun recommendMainColor(temperature: Int, user: User) : String {
+    fun recommendMainColor(temperature: Int, tone: String, user: User) : Color {
         val previous: List<History>? = historyRepository.findByUsername(user.username)
-        return getMainColor(previous!!, user)
+        val basicColor = getBasicColor(previous!!, user)
+        return getTonedColor(basicColor, tone)
     }
 
-    fun getMainColor(previous: List<History>, user: User): String {
+    fun getTonedColor(colorStr: String, tone: String): Color {
+        val color = switchStrToColor(colorStr)
+        return when(tone) {
+            "MONO" -> colorService.getMonoColor(color)
+            "VIVID" -> colorService.getVividColor(color)
+            "PASTEL" -> colorService.getPastelColor(color)
+            "DEEP" -> colorService.getDeepColor(color)
+            else -> throw Exception()
+        }
+    }
+
+    fun getBasicColor(previous: List<History>, user: User): String {
         val score: MutableMap<String, Int> = HashMap()
 
         for(x in mainColors) score[x] = 100
@@ -94,6 +112,7 @@ class RecommendServiceImpl(
             val pantsColor = targetHist.pantsColor.mainColor()
             val topColor = targetHist.topColor.mainColor()
 
+            /*최근에 입은 하의 혹은 상의의 색깔의 점수 감산*/
             if(pantsColor in mainColors || pantsColor in monoColors)
                 score[pantsColor] = score[pantsColor]!!.minus((30 - i * 10))
             if(topColor in mainColors || topColor in monoColors)
@@ -102,9 +121,33 @@ class RecommendServiceImpl(
     }
 
     fun scoreByFavorite(user: User, score: MutableMap<String, Int>) {
+        /*사용자가 좋아하는 색깔의 점수 가산*/
         for(x in user.favoriteColors) {
             if(x.mainColor() in mainColors || x.mainColor() in monoColors)
                 score[x.mainColor()] = score[x.mainColor()]!!.plus(15)
+        }
+    }
+
+    fun recommendSideColors(mainColor: Color): MutableMap<String, List<Color>> {
+        val ret: MutableMap<String, List<Color>> = HashMap()
+
+        ret["tonInTon"] = colorService.getTonInTon(mainColor)
+        ret["tonOnTon"] = colorService.getTonOnTon(mainColor)
+
+        return ret
+    }
+
+    fun switchStrToColor(colorStr: String): Color {
+        return when(colorStr) {
+            "ORANGE" -> Color(255, 127, 0)
+            "RED" -> Color(255, 0, 0)
+            "BLUE" -> Color(0, 0, 255)
+            "GREEN" -> Color(0, 255, 0)
+            "PURPLE" -> Color(255, 0, 255)
+            "WHITE" -> Color(255, 255, 255)
+            "BLACK" -> Color(0, 0, 0)
+            "GRAY" -> Color(127, 127, 127)
+            else -> throw Exception()
         }
     }
 }
