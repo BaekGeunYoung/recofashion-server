@@ -1,5 +1,6 @@
 package com.project.recofashion.recofashion_app.controller.v1.api
 
+import com.project.recofashion.recofashion_app.controller.v1.request.RecommendRequest
 import com.project.recofashion.recofashion_app.service.RecommendService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -15,6 +16,6 @@ class RecommendController(
     @PostMapping("/")
     fun recommend(
             @AuthenticationPrincipal userDetails: UserDetails,
-            @RequestBody @Valid temperature: Int
-    ): MutableMap<String, Any> = recommendService.recommend(temperature, userDetails)
+            @RequestBody @Valid request: RecommendRequest
+    ): MutableMap<String, Any> = recommendService.recommend(request.temperature, request.tone, userDetails)
 }
