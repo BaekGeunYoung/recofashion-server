@@ -3,6 +3,7 @@ package com.project.recofashion.recofashion_app.service.impl
 import com.project.recofashion.recofashion_app.entity.history.History
 import com.project.recofashion.recofashion_app.entity.user.Color
 import com.project.recofashion.recofashion_app.entity.user.User
+import com.project.recofashion.recofashion_app.main
 import com.project.recofashion.recofashion_app.repository.HistoryRepository
 import com.project.recofashion.recofashion_app.repository.UserRepository
 import com.project.recofashion.recofashion_app.service.RecommendService
@@ -36,16 +37,8 @@ class RecommendServiceImpl(
     private val SCARF = "scarf"
     private val HOOD = "hood"
     private val MAN_TO_MAN = "man to man"
-    private val mainColor = listOf(Color(255, 0, 0),
-            Color(255, 128, 0),
-            Color(0, 255, 0),
-            Color(0, 0, 255),
-            Color(255, 0, 255)
-    )
-    private val monoColor = listOf(Color(255, 255, 255),
-            Color(128,128,128),
-            Color(0, 0, 0)
-    )
+    private val mainColors = listOf("RED", "ORANGE", "BLUE", "GREEN", "PURPLE")
+    private val monoColors = listOf("GRAY", "WHITE", "BLACK")
 
     override fun recommend(temperature: Int, userDetails: UserDetails): MutableMap<String, Any> {
         val ret: MutableMap<String, Any> = HashMap()
@@ -54,7 +47,7 @@ class RecommendServiceImpl(
         user?: throw UsernameNotFoundException("cannot find such user : ${userDetails.username}")
 
         ret["clothes"] = recommendClothes(temperature)
-        ret["colors"] = recommendColors(temperature, user)
+        ret["mainColor"] = recommendMainColor(temperature, user)
 
         return ret
     }
@@ -70,10 +63,48 @@ class RecommendServiceImpl(
         return listOf(HITTEK, COAT, PADDING, SCARF)
     }
 
-    fun recommendColors(temperature: Int, user: User) : MutableMap<String, Any> {
-        var previous: List<History>? = historyRepository.findByUsername(user.username)
+    fun recommendMainColor(temperature: Int, user: User) : String {
+        val previous: List<History>? = historyRepository.findByUsername(user.username)
+        return getMainColor(previous!!, user)
+    }
 
-        previous = previous!!.sortedByDescending { it.date }
+    fun getMainColor(previous: List<History>, user: User): String {
+        val score: MutableMap<String, Int> = HashMap()
 
+        for(x in mainColors) score[x] = 100
+        for(x in monoColors) score[x] = 100
+
+        scoreByPreviousData(previous, score)
+        scoreByFavorite(user, score)
+
+        val best = score.maxBy { it.value }
+
+        return best!!.key
+    }
+
+    fun scoreByPreviousData(previous: List<History>, score: MutableMap<String, Int>) {
+        /*사용자의 과거 데이터를 가져와 최신 순으로 정렬*/
+        val sortedPrevious = previous.sortedByDescending { it.date }
+
+        val max = if(sortedPrevious.size >= 3) 3 else sortedPrevious.size
+
+        for(i in 0 until max) {
+            val targetHist = sortedPrevious[i]
+
+            val pantsColor = targetHist.pantsColor.mainColor()
+            val topColor = targetHist.topColor.mainColor()
+
+            if(pantsColor in mainColors || pantsColor in monoColors)
+                score[pantsColor] = score[pantsColor]!!.minus((30 - i * 10))
+            if(topColor in mainColors || topColor in monoColors)
+                score[topColor] = score[topColor]!!.minus((30 - i * 10))
+        }
+    }
+
+    fun scoreByFavorite(user: User, score: MutableMap<String, Int>) {
+        for(x in user.favoriteColors) {
+            if(x.mainColor() in mainColors || x.mainColor() in monoColors)
+                score[x.mainColor()] = score[x.mainColor()]!!.plus(15)
+        }
     }
 }
