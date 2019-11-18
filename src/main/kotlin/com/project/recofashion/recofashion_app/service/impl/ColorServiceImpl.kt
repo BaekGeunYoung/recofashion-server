@@ -62,20 +62,29 @@ class ColorServiceImpl : ColorService {
 
     fun bluePurplePerpendicular(color: Color): Color = Color(color.r, 0, 255)
 
-    /*1. 주어진 점과 점(255,255,255)를 지나는 직선을 구한다.
-    * 2. 이 직선이 rgb boundary와 접하는 점을 구한다.
-    * 3. 이 점과 점(255,255,255)를 1:2로 내분하는 점을 찾는다.
+    /*1. 주어진 색깔의 원색을 구한다.
+    * 2. 구한 원색에 대응하는 점과 점(255, 255, 255)를 3:1으로 내분하는 점을 구한다.
     * */
     override fun getPastelColor(color: Color): Color {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //비비드 톤 컬러를 구할 때 작성했던 함수 활용
+        val vividColor = getVividColor(color)
+        return internalDivisionPoint(1, 3, vividColor, Color(255, 255, 255))
     }
 
-    /*1. 주어진 점과 점(0, 0, 0)를 지나는 직선을 구한다.
-    * 2. 이 직선이 rgb boundary와 접하는 점을 구한다.
-    * 3. 이 점과 점(0, 0, 0)를 1:2로 내분하는 점을 찾는다.
+    /*1. 주어진 색깔의 원색을 구한다.
+    * 2. 구한 원색에 대응하는 점과 점(0, 0, 0)을 3:1로 내분하는 점을 구한다.
     * */
     override fun getDeepColor(color: Color): Color {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //비비드 톤 컬러를 구할 때 작성했던 함수 활용
+        val vividColor = getVividColor(color)
+        return internalDivisionPoint(1, 3, vividColor, Color(0, 0, 0))
     }
 
+    fun internalDivisionPoint(ratio1: Int, ratio2: Int, point1: Color, point2: Color): Color {
+        val x = (ratio2 * point1.r + ratio1 * point2.r) / (ratio1 + ratio2)
+        val y = (ratio2 * point1.g + ratio1 * point2.g) / (ratio1 + ratio2)
+        val z = (ratio2 * point1.b + ratio1 * point2.b) / (ratio1 + ratio2)
+
+        return Color(x, y, z)
+    }
 }
