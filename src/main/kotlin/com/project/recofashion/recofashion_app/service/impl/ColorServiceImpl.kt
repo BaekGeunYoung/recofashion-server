@@ -6,12 +6,56 @@ import org.springframework.stereotype.Service
 
 @Service
 class ColorServiceImpl : ColorService {
+    /*ton in ton 색상 조합
+    * 톤은 같고 색상이 다른 여러 조합을 반환한다.
+    * */
     override fun getTonInTon(color: Color): List<Color> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val minElement = if (color.r < color.g && color.r < color.b) color.r
+                        else if(color.g < color.r && color.g < color.b) color.g
+                        else color.b
+
+        val maxElement = if (color.r > color.g && color.r > color.b) color.r
+                        else if(color.g > color.r && color.g > color.b) color.g
+                        else color.b
+
+        val middleValue = (minElement + maxElement) / 2
+
+        return listOf(
+                Color(maxElement, minElement, minElement),
+                Color(minElement, maxElement, minElement),
+                Color(minElement, minElement, maxElement),
+                Color(minElement, maxElement, maxElement),
+                Color(maxElement, minElement, maxElement),
+                Color(maxElement, maxElement, minElement),
+                Color(minElement, maxElement, middleValue),
+                Color(maxElement, minElement, middleValue),
+                Color(minElement, middleValue, maxElement),
+                Color(maxElement, middleValue, minElement),
+                Color(middleValue, minElement, maxElement),
+                Color(middleValue, maxElement, minElement)
+        )
     }
 
+    /*ton on ton 색상조합
+    * 색상은 같고 톤이 다른 여러 색상 조합을 반환한다.
+    * */
     override fun getTonOnTon(color: Color): List<Color> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val white = Color(255, 255, 255)
+        val black = Color(0, 0, 0)
+        /*채도를 낮춤으로써 톤을 달리하는 색상들*/
+        val brightColors = listOf(
+                internalDivisionPoint(1, 3, color, white),
+                internalDivisionPoint(1, 1, color, white),
+                internalDivisionPoint(3, 1, color, white)
+        )
+        /*명도를 낮춤으로써 톤을 달리하는 색상들*/
+        val darkColors = listOf(
+                internalDivisionPoint(1, 3, color, black),
+                internalDivisionPoint(1, 1, color, black),
+                internalDivisionPoint(3, 1, color, black)
+        )
+
+        return brightColors.plus(darkColors)
     }
 
     /*주어진 점으로부터 x=y=z 직선에 가장 가까운 점을 구한다.*/
