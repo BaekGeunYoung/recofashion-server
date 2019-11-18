@@ -50,16 +50,22 @@ class ColorServiceImpl : ColorService {
         }
     }
 
+    /*색깔을 빨강색-보라색 계열 원색으로 변환*/
     fun redPurplePerpendicular(color: Color) : Color = Color(255, 0, color.b)
 
+    /*색깔을 빨강색-노란색 계열 원색으로 변환*/
     fun redYellowPerpendicular(color: Color): Color = Color(255, color.g, 0)
 
+    /*색깔을 초록색-노란색 계열 원색으로 변환*/
     fun greenYellowPerpendicular(color: Color): Color = Color(color.r, 255, 0)
 
+    /*색깔을 초록색-하늘색 계열 원색으로 변환*/
     fun greenSkyPerpendicular(color: Color): Color = Color(0, 255, color.b)
 
+    /*색깔을 파란색-하늘색 계열 원색으로 변환*/
     fun blueSkyPerpendicular(color: Color): Color = Color(0, color.g, 255)
 
+    /*색깔을 파란색-보라색 계열 원색으로 변환*/
     fun bluePurplePerpendicular(color: Color): Color = Color(color.r, 0, 255)
 
     /*1. 주어진 색깔의 원색을 구한다.
@@ -80,6 +86,7 @@ class ColorServiceImpl : ColorService {
         return internalDivisionPoint(1, 3, vividColor, Color(0, 0, 0))
     }
 
+    /*point1, point2를 ratio1 : ratio2로 내분하는 점을 구한다.*/
     fun internalDivisionPoint(ratio1: Int, ratio2: Int, point1: Color, point2: Color): Color {
         val x = (ratio2 * point1.r + ratio1 * point2.r) / (ratio1 + ratio2)
         val y = (ratio2 * point1.g + ratio1 * point2.g) / (ratio1 + ratio2)
