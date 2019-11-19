@@ -1,6 +1,11 @@
 package com.project.recofashion.recofashion_app.entity.user
 
-class Color(val r: Int, val g: Int, val b: Int) {
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+
+@Entity
+data class Color(@Id @GeneratedValue val id: Long? = null, val r: Int, val g: Int, val b: Int) {
     fun mainColor() : String {
         if(r > g && r > b) {
             if( r >= 2*g - 1 && r <= 2*g + 1) return "ORANGE"

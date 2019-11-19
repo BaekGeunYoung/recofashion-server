@@ -21,18 +21,18 @@ class ColorServiceImpl : ColorService {
         val middleValue = (minElement + maxElement) / 2
 
         return listOf(
-                Color(maxElement, minElement, minElement),
-                Color(minElement, maxElement, minElement),
-                Color(minElement, minElement, maxElement),
-                Color(minElement, maxElement, maxElement),
-                Color(maxElement, minElement, maxElement),
-                Color(maxElement, maxElement, minElement),
-                Color(minElement, maxElement, middleValue),
-                Color(maxElement, minElement, middleValue),
-                Color(minElement, middleValue, maxElement),
-                Color(maxElement, middleValue, minElement),
-                Color(middleValue, minElement, maxElement),
-                Color(middleValue, maxElement, minElement)
+                Color(null, maxElement, minElement, minElement),
+                Color(null, minElement, maxElement, minElement),
+                Color(null, minElement, minElement, maxElement),
+                Color(null, minElement, maxElement, maxElement),
+                Color(null, maxElement, minElement, maxElement),
+                Color(null, maxElement, maxElement, minElement),
+                Color(null, minElement, maxElement, middleValue),
+                Color(null, maxElement, minElement, middleValue),
+                Color(null, minElement, middleValue, maxElement),
+                Color(null, maxElement, middleValue, minElement),
+                Color(null, middleValue, minElement, maxElement),
+                Color(null, middleValue, maxElement, minElement)
         )
     }
 
@@ -40,8 +40,8 @@ class ColorServiceImpl : ColorService {
     * 색상은 같고 톤이 다른 여러 색상 조합을 반환한다.
     * */
     override fun getTonOnTon(color: Color): List<Color> {
-        val white = Color(255, 255, 255)
-        val black = Color(0, 0, 0)
+        val white = Color(null, 255, 255, 255)
+        val black = Color(null, 0, 0, 0)
         /*채도를 낮춤으로써 톤을 달리하는 색상들*/
         val brightColors = listOf(
                 internalDivisionPoint(1, 3, color, white),
@@ -63,7 +63,7 @@ class ColorServiceImpl : ColorService {
         /*우리가 원하는 점을 벡터 V라 하고, 주어진 점(a,b,c)을 벡터 w라 하면, (v-w)와 (1,1,1)을 내적한 값이 0이 되어야 한다.
         * 이 조건을 만족하는 벡터 v의 x,y,z 값은 (a+b+c)/3이다. */
         val monoValue = (color.r + color.g + color.b) / 3
-        return Color(monoValue, monoValue, monoValue)
+        return Color(null, monoValue, monoValue, monoValue)
     }
 
     /*주어진 점의 원색을 구한다.
@@ -95,22 +95,22 @@ class ColorServiceImpl : ColorService {
     }
 
     /*색깔을 빨강색-보라색 계열 원색으로 변환*/
-    fun redPurplePerpendicular(color: Color) : Color = Color(255, 0, color.b)
+    fun redPurplePerpendicular(color: Color) : Color = Color(null, 255, 0, color.b)
 
     /*색깔을 빨강색-노란색 계열 원색으로 변환*/
-    fun redYellowPerpendicular(color: Color): Color = Color(255, color.g, 0)
+    fun redYellowPerpendicular(color: Color): Color = Color(null, 255, color.g, 0)
 
     /*색깔을 초록색-노란색 계열 원색으로 변환*/
-    fun greenYellowPerpendicular(color: Color): Color = Color(color.r, 255, 0)
+    fun greenYellowPerpendicular(color: Color): Color = Color(null, color.r, 255, 0)
 
     /*색깔을 초록색-하늘색 계열 원색으로 변환*/
-    fun greenSkyPerpendicular(color: Color): Color = Color(0, 255, color.b)
+    fun greenSkyPerpendicular(color: Color): Color = Color(null, 0, 255, color.b)
 
     /*색깔을 파란색-하늘색 계열 원색으로 변환*/
-    fun blueSkyPerpendicular(color: Color): Color = Color(0, color.g, 255)
+    fun blueSkyPerpendicular(color: Color): Color = Color(null, 0, color.g, 255)
 
     /*색깔을 파란색-보라색 계열 원색으로 변환*/
-    fun bluePurplePerpendicular(color: Color): Color = Color(color.r, 0, 255)
+    fun bluePurplePerpendicular(color: Color): Color = Color(null, color.r, 0, 255)
 
     /*1. 주어진 색깔의 원색을 구한다.
     * 2. 구한 원색에 대응하는 점과 점(255, 255, 255)를 3:1으로 내분하는 점을 구한다.
@@ -118,7 +118,7 @@ class ColorServiceImpl : ColorService {
     override fun getPastelColor(color: Color): Color {
         //비비드 톤 컬러를 구할 때 작성했던 함수 활용
         val vividColor = getVividColor(color)
-        return internalDivisionPoint(1, 3, vividColor, Color(255, 255, 255))
+        return internalDivisionPoint(1, 3, vividColor, Color(null, 255, 255, 255))
     }
 
     /*1. 주어진 색깔의 원색을 구한다.
@@ -127,7 +127,7 @@ class ColorServiceImpl : ColorService {
     override fun getDeepColor(color: Color): Color {
         //비비드 톤 컬러를 구할 때 작성했던 함수 활용
         val vividColor = getVividColor(color)
-        return internalDivisionPoint(1, 3, vividColor, Color(0, 0, 0))
+        return internalDivisionPoint(1, 3, vividColor, Color(null, 0, 0, 0))
     }
 
     /*point1, point2를 ratio1 : ratio2로 내분하는 점을 구한다.*/
@@ -136,6 +136,6 @@ class ColorServiceImpl : ColorService {
         val y = (ratio2 * point1.g + ratio1 * point2.g) / (ratio1 + ratio2)
         val z = (ratio2 * point1.b + ratio1 * point2.b) / (ratio1 + ratio2)
 
-        return Color(x, y, z)
+        return Color(null, x, y, z)
     }
 }
