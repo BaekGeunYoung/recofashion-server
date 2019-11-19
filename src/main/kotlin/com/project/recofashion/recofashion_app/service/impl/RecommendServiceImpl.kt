@@ -139,14 +139,14 @@ class RecommendServiceImpl(
 
     fun switchStrToColor(colorStr: String): Color {
         return when(colorStr) {
-            "ORANGE" -> Color(null, 255, 127, 0)
-            "RED" -> Color(null, 255, 0, 0)
-            "BLUE" -> Color(null, 0, 0, 255)
-            "GREEN" -> Color(null, 0, 255, 0)
-            "PURPLE" -> Color(null, 255, 0, 255)
-            "WHITE" -> Color(null, 255, 255, 255)
-            "BLACK" -> Color(null, 0, 0, 0)
-            "GRAY" -> Color(null, 127, 127, 127)
+            "ORANGE" -> Color(255, 127, 0)
+            "RED" -> Color(255, 0, 0)
+            "BLUE" -> Color(0, 0, 255)
+            "GREEN" -> Color(0, 255, 0)
+            "PURPLE" -> Color(255, 0, 255)
+            "WHITE" -> Color(255, 255, 255)
+            "BLACK" -> Color(0, 0, 0)
+            "GRAY" -> Color(127, 127, 127)
             else -> throw Exception()
         }
     }

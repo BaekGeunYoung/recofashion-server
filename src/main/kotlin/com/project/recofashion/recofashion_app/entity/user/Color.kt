@@ -1,11 +1,13 @@
 package com.project.recofashion.recofashion_app.entity.user
 
+import java.io.Serializable
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.IdClass
 
-@Entity
-data class Color(@Id @GeneratedValue val id: Long? = null, val r: Int, val g: Int, val b: Int) {
+@Entity @IdClass(Color::class)
+data class Color(@Id val r: Int, @Id val g: Int, @Id val b: Int) : Serializable{
     fun mainColor() : String {
         if(r > g && r > b) {
             if( r >= 2*g - 1 && r <= 2*g + 1) return "ORANGE"

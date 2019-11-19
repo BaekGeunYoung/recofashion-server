@@ -2,6 +2,7 @@ package com.project.recofashion.recofashion_app.service.impl
 
 import com.project.recofashion.recofashion_app.config.security.jwt.JwtTokenProvider
 import com.project.recofashion.recofashion_app.entity.user.User
+import com.project.recofashion.recofashion_app.repository.ColorRepository
 import com.project.recofashion.recofashion_app.repository.UserRepository
 import com.project.recofashion.recofashion_app.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,6 +18,7 @@ import javax.security.sasl.AuthenticationException
 @Service
 class UserServiceImpl(
         @Autowired private val userRepository: UserRepository,
+        @Autowired private val colorRepository: ColorRepository,
         @Autowired private val bCryptPasswordEncoder: BCryptPasswordEncoder
 ) : UserService {
     override fun signUp(userData: User): User {
@@ -31,6 +33,7 @@ class UserServiceImpl(
                 userData.favoriteColors
                 )
 
+        for(color in userData.favoriteColors) colorRepository.save(color)
         return userRepository.save(userPasswordEncoded)
     }
 

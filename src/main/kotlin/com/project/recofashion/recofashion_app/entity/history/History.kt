@@ -2,10 +2,7 @@ package com.project.recofashion.recofashion_app.entity.history
 
 import com.project.recofashion.recofashion_app.entity.user.Color
 import java.time.LocalDate
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.ManyToOne
+import javax.persistence.*
 
 @Entity
 data class History(
@@ -13,10 +10,10 @@ data class History(
         var id: Long? = null,
         var username: String,
 
-        @ManyToOne(targetEntity = Color::class)
+        @ManyToOne(targetEntity = Color::class, cascade = [CascadeType.ALL])
         var topColor: Color,
 
-        @ManyToOne(targetEntity = Color::class)
+        @ManyToOne(targetEntity = Color::class, cascade = [CascadeType.ALL])
         var pantsColor: Color,
         var date: LocalDate
 )
