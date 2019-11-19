@@ -37,7 +37,11 @@ dependencies {
     compile("io.jsonwebtoken:jjwt:0.9.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+        exclude(module = "junit")
     }
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testCompile("org.junit.jupiter:junit-jupiter-params")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("org.springframework.security:spring-security-test")
 }
 
