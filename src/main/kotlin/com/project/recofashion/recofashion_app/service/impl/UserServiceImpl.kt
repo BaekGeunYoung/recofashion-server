@@ -33,7 +33,7 @@ class UserServiceImpl(
                 userData.favoriteColors
                 )
 
-        for(color in userData.favoriteColors) colorRepository.save(color)
+        for(color in userData.favoriteColors) if(!colorRepository.existsById(color)) colorRepository.save(color)
         return userRepository.save(userPasswordEncoded)
     }
 

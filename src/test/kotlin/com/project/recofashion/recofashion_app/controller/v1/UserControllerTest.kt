@@ -9,7 +9,10 @@ import com.project.recofashion.recofashion_app.entity.user.Color
 import com.project.recofashion.recofashion_app.entity.user.Role
 import com.project.recofashion.recofashion_app.entity.user.Skin
 import com.project.recofashion.recofashion_app.entity.user.User
+import org.junit.jupiter.api.MethodOrderer
+import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -21,6 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
@@ -34,7 +38,8 @@ class UserControllerTest(
     val user = User(null, "dvmflstm", "dkdltm123", "firstName", "lastName",
             mutableSetOf(Role.ADMIN), Skin.DARK, mutableSetOf(Color(1, 2, 3), Color(127, 128, 17)))
     @Test
-    fun registerAndLoginTest() {
+    @Order(1)
+    fun registerTest() {
         val requestBody = writer.writeValueAsString(user)
 
         mockMvc.perform(
@@ -45,7 +50,11 @@ class UserControllerTest(
                 .andExpect(jsonPath("username").value("dvmflstm"))
                 .andExpect(jsonPath("firstName").value("firstName"))
                 .andExpect(jsonPath("lastName").value("lastName"))
+    }
 
+    @Test
+    @Order(2)
+    fun loginTest() {
         //로그인 테스트
         //1. 로그인 성공 테스트
         var loginInfo = UserLoginRequest("dvmflstm", "dkdltm123")
@@ -78,15 +87,8 @@ class UserControllerTest(
     }
 
     @Test
+    @Order(3)
     fun myInfoTest() {
-        val requestBody = writer.writeValueAsString(user)
-
-        mockMvc.perform(
-                post("/api/v1/user/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isOk)
-
         //내정보 열람 테스트
         val token = jwtTokenProvider.createToken(user.username, user.roles.map {it.name})
         val authHeader = "Bearer $token"
