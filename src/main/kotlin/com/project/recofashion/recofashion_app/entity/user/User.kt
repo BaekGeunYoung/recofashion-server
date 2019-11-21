@@ -7,7 +7,7 @@ data class User(
         @Id @GeneratedValue
         var id: Long? = null,
 
-//        @Column(name="username", unique = true)
+        @Column(name="username", unique = true)
         var username: String,
         var password: String,
         var firstName: String,
