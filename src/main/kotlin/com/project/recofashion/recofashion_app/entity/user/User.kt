@@ -1,13 +1,14 @@
 package com.project.recofashion.recofashion_app.entity.user
 
 import javax.persistence.*
+import javax.validation.constraints.Size
 
 @Entity
 data class User(
         @Id @GeneratedValue
         var id: Long? = null,
 
-        @Column(name="username", unique = true)
+        @Column(name="username", unique = true, length = 200)
         var username: String,
         var password: String,
         var firstName: String,
