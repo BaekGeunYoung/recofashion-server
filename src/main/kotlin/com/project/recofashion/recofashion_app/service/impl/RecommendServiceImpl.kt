@@ -121,8 +121,10 @@ class RecommendServiceImpl(
     }
 
     fun scoreByFavorite(user: User, score: MutableMap<String, Int>) {
+        user.favoriteColors?: return
+
         /*사용자가 좋아하는 색깔의 점수 가산*/
-        for(x in user.favoriteColors) {
+        for(x in user.favoriteColors!!) {
             if(x.mainColor() in mainColors || x.mainColor() in monoColors)
                 score[x.mainColor()] = score[x.mainColor()]!!.plus(15)
         }

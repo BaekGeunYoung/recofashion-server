@@ -1,7 +1,6 @@
 package com.project.recofashion.recofashion_app.entity.user
 
 import javax.persistence.*
-import javax.validation.constraints.Size
 
 @Entity
 data class User(
@@ -20,5 +19,5 @@ data class User(
         var skin: Skin,
 
         @ElementCollection(fetch = FetchType.EAGER)
-        var favoriteColors: MutableSet<Color>
+        var favoriteColors: MutableSet<Color>? = null
 )
