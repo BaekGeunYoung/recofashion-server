@@ -8,7 +8,6 @@ import com.project.recofashion.recofashion_app.entity.user.Color
 import com.project.recofashion.recofashion_app.entity.user.Role
 import com.project.recofashion.recofashion_app.entity.user.Skin
 import com.project.recofashion.recofashion_app.entity.user.User
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders

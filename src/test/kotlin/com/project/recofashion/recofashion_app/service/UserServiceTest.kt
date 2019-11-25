@@ -2,7 +2,6 @@ package com.project.recofashion.recofashion_app.service
 
 import com.project.recofashion.recofashion_app.config.security.jwt.JwtTokenProvider
 import com.project.recofashion.recofashion_app.config.security.userdetails.CustomUserDetails
-import com.project.recofashion.recofashion_app.config.security.userdetails.CustomUserDetailsService
 import com.project.recofashion.recofashion_app.entity.user.Color
 import com.project.recofashion.recofashion_app.entity.user.Role
 import com.project.recofashion.recofashion_app.entity.user.Skin
@@ -10,12 +9,9 @@ import com.project.recofashion.recofashion_app.entity.user.User
 import com.project.recofashion.recofashion_app.repository.ColorRepository
 import com.project.recofashion.recofashion_app.repository.UserRepository
 import com.project.recofashion.recofashion_app.service.impl.UserServiceImpl
-import org.aspectj.lang.annotation.Before
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.jupiter.params.ParameterizedTest
-import org.mockito.ArgumentMatchers
 import org.mockito.BDDMockito.*
 import org.mockito.InjectMocks
 import org.mockito.Mock

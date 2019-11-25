@@ -2,6 +2,7 @@ package com.project.recofashion.recofashion_app.controller.v1.api
 
 import com.project.recofashion.recofashion_app.config.security.jwt.JwtTokenProvider
 import com.project.recofashion.recofashion_app.controller.v1.request.UserLoginRequest
+import com.project.recofashion.recofashion_app.entity.user.Color
 import com.project.recofashion.recofashion_app.entity.user.User
 import com.project.recofashion.recofashion_app.service.HistoryService
 import com.project.recofashion.recofashion_app.service.UserService
@@ -42,5 +43,10 @@ class UserController(
         ret["histories"] = histories
 
         return ret
+    }
+
+    @PostMapping("/favorite")
+    fun updateFavoriteColors(@AuthenticationPrincipal userDetails: UserDetails, @RequestBody @Valid colors: Set<Color>) {
+        userService.updateFavoriteColors(userDetails, colors)
     }
 }

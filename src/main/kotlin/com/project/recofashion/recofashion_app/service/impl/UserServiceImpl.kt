@@ -1,6 +1,7 @@
 package com.project.recofashion.recofashion_app.service.impl
 
 import com.project.recofashion.recofashion_app.config.security.jwt.JwtTokenProvider
+import com.project.recofashion.recofashion_app.entity.user.Color
 import com.project.recofashion.recofashion_app.entity.user.User
 import com.project.recofashion.recofashion_app.repository.ColorRepository
 import com.project.recofashion.recofashion_app.repository.UserRepository
@@ -66,5 +67,25 @@ class UserServiceImpl(
         if(!user.isPresent) throw UsernameNotFoundException("cannot find such user")
 
         return user.get()
+    }
+
+    override fun updateFavoriteColors(userDetails: UserDetails, colors: Set<Color>) {
+        val user = userRepository.findByUsername(userDetails.username)
+
+        user?: throw BadCredentialsException("cannot find such user: ${userDetails.username}")
+
+        val favoriteColorsUpdated = User(
+                user.id,
+                user.username,
+                user.password,
+                user.firstName,
+                user.lastName,
+                user.roles,
+                user.skin,
+                colors.toMutableSet()
+        )
+
+        for(color in colors) if(!colorRepository.existsById(color)) colorRepository.save(color)
+        userRepository.save(favoriteColorsUpdated)
     }
 }

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectWriter
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.project.recofashion.recofashion_app.config.security.jwt.JwtTokenProvider
 import com.project.recofashion.recofashion_app.controller.v1.request.AddHistoryRequest
-import com.project.recofashion.recofashion_app.entity.history.History
 import com.project.recofashion.recofashion_app.entity.user.Color
 import com.project.recofashion.recofashion_app.entity.user.Role
 import com.project.recofashion.recofashion_app.entity.user.Skin
