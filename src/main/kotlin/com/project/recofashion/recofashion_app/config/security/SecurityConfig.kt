@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -32,8 +33,10 @@ class SecurityConfig(
 
     override fun configure(http: HttpSecurity) {
         http
+                .cors().disable()
                 .csrf().disable()
                 .antMatcher("/api/**").authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/v1/user/register").anonymous()
                 .antMatchers("/api/v1/user/login").anonymous()
                 .anyRequest().authenticated()
