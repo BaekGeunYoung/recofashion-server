@@ -4,5 +4,5 @@ import com.project.recofashion.recofashion_app.entity.user.Color
 
 data class AddHistoryRequest(
         var topColor: Color,
-        var pantscolor: Color
+        var pantsColor: Color
 )

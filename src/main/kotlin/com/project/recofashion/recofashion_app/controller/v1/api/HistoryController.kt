@@ -22,7 +22,7 @@ class HistoryController(
             @RequestBody @Valid addHistoryRequest: AddHistoryRequest,
             @AuthenticationPrincipal userDetails: UserDetails
     ): History {
-        val history = History(null, userDetails.username, addHistoryRequest.topColor, addHistoryRequest.pantscolor, LocalDate.now())
+        val history = History(null, userDetails.username, addHistoryRequest.topColor, addHistoryRequest.pantsColor, LocalDate.now())
         return historyService.addHistory(history)
     }
 }
