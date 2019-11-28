@@ -10,12 +10,12 @@ class ColorServiceImpl : ColorService {
     * 톤은 같고 색상이 다른 여러 조합을 반환한다.
     * */
     override fun getTonInTon(color: Color): List<Color> {
-        val minElement = if (color.r < color.g && color.r < color.b) color.r
-                        else if(color.g < color.r && color.g < color.b) color.g
+        val minElement = if (color.r <= color.g && color.r <= color.b) color.r
+                        else if(color.g <= color.r && color.g <= color.b) color.g
                         else color.b
 
-        val maxElement = if (color.r > color.g && color.r > color.b) color.r
-                        else if(color.g > color.r && color.g > color.b) color.g
+        val maxElement = if (color.r >= color.g && color.r >= color.b) color.r
+                        else if(color.g >= color.r && color.g >= color.b) color.g
                         else color.b
 
         val middleValue = (minElement + maxElement) / 2
@@ -74,6 +74,17 @@ class ColorServiceImpl : ColorService {
         val y = color.g
         val z = color.b
 
+        if(x == y && y == z) {
+            // 무채색인 경우 흰색과 검은색 중 가까운 색을 반환
+            return if(x == 127) color
+            else if(x < 127) Color(0, 0, 0)
+            else Color(255, 255, 255)
+        }
+
+        if(x == y) return Color(255, 255, 0)
+        if(y == z) return Color(0, 0, 255)
+        if(z == x) return Color(255, 0, 255)
+
         return if(x < y) {
             if(255 - y < x) {
                 if(x > z) greenYellowPerpendicular(color)
@@ -127,7 +138,7 @@ class ColorServiceImpl : ColorService {
     override fun getDeepColor(color: Color): Color {
         //비비드 톤 컬러를 구할 때 작성했던 함수 활용
         val vividColor = getVividColor(color)
-        return internalDivisionPoint(1, 3, vividColor, Color( 0, 0, 0))
+        return internalDivisionPoint(3, 1, vividColor, Color( 0, 0, 0))
     }
 
     /*point1, point2를 ratio1 : ratio2로 내분하는 점을 구한다.*/

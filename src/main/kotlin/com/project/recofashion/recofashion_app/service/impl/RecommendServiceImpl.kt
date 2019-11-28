@@ -71,7 +71,8 @@ class RecommendServiceImpl(
 
     fun recommendMainColor(temperature: Int, tone: String, user: User) : Color {
         val previous: List<History>? = historyRepository.findByUsername(user.username)
-        val basicColor = getBasicColor(previous!!, user)
+        val basicColor = getBasicColor(previous!!, user, tone)
+
         return getTonedColor(basicColor, tone)
     }
 
@@ -86,7 +87,7 @@ class RecommendServiceImpl(
         }
     }
 
-    fun getBasicColor(previous: List<History>, user: User): String {
+    fun getBasicColor(previous: List<History>, user: User, tone: String): String {
         val score: MutableMap<String, Int> = HashMap()
 
         for(x in mainColors) score[x] = 100
@@ -95,6 +96,19 @@ class RecommendServiceImpl(
         scoreByPreviousData(previous, score)
         scoreByFavorite(user, score)
 
+        if(tone == "MONO") {
+            score.remove("RED")
+            score.remove("ORANGE")
+            score.remove("YELLOW")
+            score.remove("PURPLE")
+            score.remove("BLUE")
+        }
+        else {
+            score.remove("BLACK")
+            score.remove("GRAY")
+            score.remove("WHITE")
+        }
+
         val best = score.maxBy { it.value }
 
         return best!!.key
@@ -102,7 +116,7 @@ class RecommendServiceImpl(
 
     fun scoreByPreviousData(previous: List<History>, score: MutableMap<String, Int>) {
         /*사용자의 과거 데이터를 가져와 최신 순으로 정렬*/
-        val sortedPrevious = previous.sortedByDescending { it.date }
+        val sortedPrevious = previous.sortedByDescending { it.id }
 
         val max = if(sortedPrevious.size >= 3) 3 else sortedPrevious.size
 
