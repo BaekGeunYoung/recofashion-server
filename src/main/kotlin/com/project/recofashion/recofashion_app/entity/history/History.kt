@@ -10,10 +10,10 @@ data class History(
         var id: Long? = null,
         var username: String,
 
-        @ManyToOne(targetEntity = Color::class, cascade = [CascadeType.ALL])
+        @ManyToOne(targetEntity = Color::class)
         var topColor: Color,
 
-        @ManyToOne(targetEntity = Color::class, cascade = [CascadeType.ALL])
+        @ManyToOne(targetEntity = Color::class)
         var pantsColor: Color,
         var date: LocalDate
 )
