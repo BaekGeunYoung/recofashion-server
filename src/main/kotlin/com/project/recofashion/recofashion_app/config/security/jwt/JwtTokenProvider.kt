@@ -18,7 +18,7 @@ class JwtTokenProvider(
         private val userDetailsService: UserDetailsService
 ) {
     private val secretKey: String = "jwt_secret_geunyoung"
-    private val validityInMilliseconds: Long = 3600000
+    private val validityInMilliseconds: Long = 36000000
 
     fun createToken(username: String, roles: List<String>): String {
         val claims: Claims = Jwts.claims().setSubject(username)
