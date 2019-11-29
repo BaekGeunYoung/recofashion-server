@@ -111,9 +111,9 @@ class RecommendServiceImpl(
         if(tone == "MONO") {
             score.remove("RED")
             score.remove("ORANGE")
-            score.remove("YELLOW")
             score.remove("PURPLE")
             score.remove("BLUE")
+            score.remove("GREEN")
         }
         else {
             score.remove("BLACK")
@@ -121,8 +121,11 @@ class RecommendServiceImpl(
             score.remove("WHITE")
         }
 
+        for(x in score) println("recommend: ${x.key} - ${x.value}")
+
         val best = score.maxBy { it.value }
 
+        println("best : ${best!!.key}, ${best!!.value}")
         return best!!.key
     }
 

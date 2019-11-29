@@ -81,10 +81,6 @@ class ColorServiceImpl : ColorService {
             else Color(255, 255, 255)
         }
 
-        if(x == y) return Color(255, 255, 0)
-        if(y == z) return Color(0, 0, 255)
-        if(z == x) return Color(255, 0, 255)
-
         return if(x < y) {
             if(255 - y < x) {
                 if(x > z) greenYellowPerpendicular(color)
@@ -128,8 +124,8 @@ class ColorServiceImpl : ColorService {
     * */
     override fun getPastelColor(color: Color): Color {
         //비비드 톤 컬러를 구할 때 작성했던 함수 활용
-        val vividColor = getVividColor(color)
-        return internalDivisionPoint(3, 1, vividColor, Color(255, 255, 255))
+//        val vividColor = getVividColor(color)
+        return internalDivisionPoint(3, 1, color, Color(255, 255, 255))
     }
 
     /*1. 주어진 색깔의 원색을 구한다.
