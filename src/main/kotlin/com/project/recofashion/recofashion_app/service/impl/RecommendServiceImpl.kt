@@ -57,6 +57,18 @@ class RecommendServiceImpl(
 
         return ret
     }
+
+    override fun search(color: Color, temperature: Int): MutableMap<String, Any> {
+        val clothes = recommendClothes(temperature)
+        val sideColors = recommendSideColors(color)
+
+        val ret: MutableMap<String, Any> = HashMap()
+
+        ret["clothes"] = clothes
+        ret["sideColors"] = sideColors
+
+        return ret
+    }
     
     fun recommendClothes(temperature: Int) : List<String> {
         if(temperature >= 27) return listOf(SHORT, SHORT_SLEEVE, SLEEVELESS)
