@@ -152,6 +152,11 @@ class RecommendServiceImpl(
     fun scoreByFavorite(user: User, score: MutableMap<String, Int>) {
         user.favoriteColors?: return
 
+        println("user's favorite colors: ")
+        for(x in user.favoriteColors!!) {
+            println("${x.r}, ${x.g}, ${x.b}")
+        }
+
         /*사용자가 좋아하는 색깔의 점수 가산*/
         for(x in user.favoriteColors!!) {
             if(x.mainColor() in mainColors || x.mainColor() in monoColors)

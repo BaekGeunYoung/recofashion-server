@@ -15,9 +15,10 @@ data class Color(@Id val r: Int, @Id val g: Int, @Id val b: Int) : Serializable{
         }
         else if(b > r && b > g) return "BLUE"
         else if(g > b && g > r) return "GREEN"
-        else if(r == b) return "PURPLE"
         else if(r == 255 && b == 255 && g == 255) return "WHITE"
         else if(r == 0 && b == 0 && g == 0) return "BLACK"
+        else if(r == 127 && b == 127 && g == 127) return "GRAY"
+        else if(r == b) return "PURPLE"
         else return "NOT FOUND"
     }
 }
