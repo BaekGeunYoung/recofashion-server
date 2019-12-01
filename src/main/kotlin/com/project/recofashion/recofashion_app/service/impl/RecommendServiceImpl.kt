@@ -53,6 +53,7 @@ class RecommendServiceImpl(
 
         ret["clothes"] = clothes
         ret["mainColor"] = mainColor
+        ret["mainColorStr"] = mainColor.mainColor()
         ret["sideColors"] = sideColors
 
         return ret
