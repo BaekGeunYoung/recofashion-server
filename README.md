@@ -32,6 +32,8 @@
 - React Color
 - Reactstrap
 - Cheerio
+- GeoLocation API
+- Open Weather API
 
 ## Backend
 - Kotlin
