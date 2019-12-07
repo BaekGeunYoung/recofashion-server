@@ -1,3 +1,5 @@
+# RecoFashion-server
+[![Build Status](https://travis-ci.org/BaekGeunYoung/recofashion-server.svg?branch=master)](https://travis-ci.org/BaekGeunYoung/recofashion-server)
 # 목표 서비스
 패션 코디 추천 서비스
 
