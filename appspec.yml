@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source:  /
+    destination: /home/geunyoung/app/travis/build/recofashion-server
+
+hooks:
+  AfterInstall:
+    - location: execute-deploy.sh
+      timeout: 180
