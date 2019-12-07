@@ -1,0 +1,47 @@
+language: java
+jdk:
+  - openjdk11
+
+branches:
+  only:
+    - master
+
+script: "./gradlew bootjar"
+
+before_deploy:
+  - zip -r recofashion-server *
+  - mkdir -p deploy
+  - mv recofashion-server.zip deploy/recofashion-server.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: recofashion-client-build-storage
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: public_read
+    local_dir: deploy # before_deploy에서 생성한 디렉토리
+    wait-until-deployed: true
+    on:
+      repo: BaekGeunYoung/recofashion-server
+      branch: master
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: recofashion-client-build-storage
+    key: recofashion-server.zip
+    bundle_type: zip
+    application: recofashion-client
+    deployment_group: recofashion-server-deploy-group
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      repo: BaekGeunYoung/recofashion-server
+      branch: master
+
+notifications:
+  email:
+    recipients:
+      - xxx@gmail.com
