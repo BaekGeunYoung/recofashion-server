@@ -6,6 +6,11 @@ branches:
   only:
     - master
 
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+
 script: "./gradlew bootjar"
 
 before_deploy:
