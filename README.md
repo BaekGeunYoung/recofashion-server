@@ -41,10 +41,17 @@
 - Kotlin
 - Spring-boot
 - Security
-- Mysql
+- Mysql (Running on Docker)
 - JPA
 - Mockito
 - JUnit
+
+## CI/CD & External Infra
+- AWS EC2
+- AWS CodeDeploy
+- AWS S3
+- Travis CI
+- Docker
 
 ---
 
@@ -131,3 +138,6 @@ tone in tone / tone on tone 색상 조합을 제시하는 알고리즘을 구상
 - JUnit을 통한 유닛 테스트
 - 보편적인 CRUD만 작성하는 것이 아닌, 특수한 상황에서 적용할 수 있는 rule-based algorithm 고안
 - RGB 패턴을 3차원 좌표평면에 옮겨, 기하학적인 개념을 코드로 구현
+
+### CI & CD
+- AWS EC2 + S3 + CodeDeploy + github Travis CI 를 이용한 빌드 및 배포 자동화 구현
