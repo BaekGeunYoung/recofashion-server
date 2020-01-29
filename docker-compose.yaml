@@ -23,3 +23,12 @@ services:
         environment:
           SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/recofashion?serverTimezone=UTC&characterEncoding=UTF-8
 
+    client:
+        container_name: recofashion_client
+        image: recofashion/client
+        ports:
+          - 81:80
+        depends_on:
+          - server
+        environment:
+          NODE_ENV: production
