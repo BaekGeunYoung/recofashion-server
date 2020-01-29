@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+    mysql:
+        container_name: mysql
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        environment:
+          MYSQL_DATABASE: recofashion
+          MYSQL_ROOT_PASSWORD: dkdltm123
+          MYSQL_ROOT_HOST: '%'
+        volumes:
+          - /recofashion/db:/var/lib/mysql
+
+    server:
+        container_name: recofashion_server
+        image: recofashion/server
+        ports:
+          - 5000:8080
+        depends_on:
+          - mysql
+        environment:
+          SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/recofashion?serverTimezone=UTC&characterEncoding=UTF-8
+
