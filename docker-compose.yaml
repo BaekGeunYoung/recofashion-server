@@ -22,6 +22,7 @@ services:
           - mysql
         environment:
           SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/recofashion?serverTimezone=UTC&characterEncoding=UTF-8
+          DEPLOY_HOST: http://192.168.137.120
 
     client:
         container_name: recofashion_client
