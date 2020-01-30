@@ -10,9 +10,12 @@ class WebConfig : WebMvcConfigurer {
     @Value("\${DEPLOY_HOST}")
     private val deployHost: String = ""
 
+    @Value("\${DEPLOY_PORT}")
+    private val deployPort: String = ""
+
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:3000", deployHost)
+                .allowedOrigins("http://localhost:3000", "$deployHost:$deployPort")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("authorization", "content-type")
                 .exposedHeaders("authorization")
