@@ -53,6 +53,7 @@
 - AWS S3
 - Travis CI
 - Docker
+- Kubernetes
 
 ---
 
