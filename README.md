@@ -17,6 +17,8 @@
 - 패션 사진 가져올 때 크롤러 사용
 - 날씨 관련 open api 사용하기
 - 매일 최적의 코디를 제시할 수 있는 적절한 알고리즘 구상하기
+- docker와 docker-compose를 이용한 어플리케이션 배포
+- kubernetes 클러스터 구축을 통한 어플리케이션 
 
 ---
 # Stack
@@ -140,3 +142,7 @@ tone in tone / tone on tone 색상 조합을 제시하는 알고리즘을 구상
 
 ### CI & CD
 - AWS EC2 + S3 + CodeDeploy + github Travis CI 를 이용한 빌드 및 배포 자동화 구현
+
+### Docker & Kubernetes
+- Docker와 docker-compose를 이용한 애플리케이션 배포
+- kuberntes 클러스터 구축
