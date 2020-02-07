@@ -12,6 +12,8 @@ services:
           MYSQL_ROOT_HOST: '%'
         volumes:
           - /recofashion/db:/var/lib/mysql
+        networks:
+          - recofashion
 
     server:
         container_name: recofashion_server
@@ -24,13 +26,21 @@ services:
           SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/recofashion?serverTimezone=UTC&characterEncoding=UTF-8
           DEPLOY_HOST: http://192.168.137.120
           DEPLOY_PORT: 81
-
+        networks:
+          - recofashion
     client:
-        container_name: recofashion_client
-        image: recofashion/client
+        container_name: recofashion_client_runtime
+        image: recofashion/client-runtime
         ports:
-          - 81:80
+          - 81:3000
         depends_on:
           - server
         environment:
           NODE_ENV: production
+          REACT_APP_API_V1_ENDPOINT: http://server:5000
+        networks:
+          - recofashion
+
+networks:
+  recofashion:
+    external: false
