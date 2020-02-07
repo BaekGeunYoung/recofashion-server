@@ -7,10 +7,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 class WebConfig : WebMvcConfigurer {
-    @Value("\${DEPLOY_HOST}")
+    @Value("\${DEPLOY_HOST:127.0.0.1}")
     private val deployHost: String = ""
 
-    @Value("\${DEPLOY_PORT}")
+    @Value("\${DEPLOY_PORT:80}")
     private val deployPort: String = ""
 
     override fun addCorsMappings(registry: CorsRegistry) {
